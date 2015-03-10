@@ -37,7 +37,8 @@ describe Rollout::DynamoDB do
       value = @storage.get("my-key")
       assert_requested(:post, @dynamo_url) do |req|
         body = MultiJson.decode(req.body)
-        body == {"Key"=>{"HashKeyElement"=>{"S"=>"my-key"}}, "TableName"=>"table"}
+        body == {"Key"=>{"HashKeyElement"=>{"S"=>"my-key"}}, "TableName"=>"table"} &&
+          req.headers["X-Amz-Target"] == "DynamoDB_20111205.GetItem"
       end
       assert_equal value, "my-value"
     end
@@ -49,7 +50,8 @@ describe Rollout::DynamoDB do
       value = @storage.get("my-nonexistent-key")
       assert_requested(:post, @dynamo_url) do |req|
         body = MultiJson.decode(req.body)
-        body == {"Key"=>{"HashKeyElement"=>{"S"=>"my-nonexistent-key"}}, "TableName"=>"table"}
+        body == {"Key"=>{"HashKeyElement"=>{"S"=>"my-nonexistent-key"}}, "TableName"=>"table"} &&
+          req.headers["X-Amz-Target"] == "DynamoDB_20111205.GetItem"
       end
       assert_nil value
     end
@@ -63,7 +65,8 @@ describe Rollout::DynamoDB do
       response = @storage.set("my-key", "my-value")
       assert_requested(:post, @dynamo_url) do |req|
         body = MultiJson.decode(req.body)
-        body == {"Item"=>{"id"=>{"S"=>"my-key"}, "value"=>{"S"=>"my-value"}}, "TableName"=>"table"}
+        body == {"Item"=>{"id"=>{"S"=>"my-key"}, "value"=>{"S"=>"my-value"}}, "TableName"=>"table"} &&
+          req.headers["X-Amz-Target"] == "DynamoDB_20120810.PutItem"
       end
     end
   end
