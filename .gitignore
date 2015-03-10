@@ -12,5 +12,5 @@
 *.o
 *.a
 mkmf.log
-bin/test
+bin/test*
 .env
