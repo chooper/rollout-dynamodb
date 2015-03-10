@@ -1,4 +1,4 @@
-# Rollout::Dynamo
+# DynamoDB storage adapter for Rollout
 
 TODO: Write a gem description
 
@@ -20,12 +20,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+$storage = Rollout::DynamoDB::Storage.new(aws_access_key, aws_secret_key, aws_table_name, aws_region)
+$rollout = Rollout.new($storage)
+
+$rollout.active?(:chat)
+# -> false
+$rollout.activate(:chat)
+# -> {}
+$rollout.active?(:chat)
+# -> true
+```
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/rollout-dynamodb/fork )
+1. Fork it ( https://github.com/chooper/rollout-dynamodb/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+

@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Rollout::DynamoDB::VERSION
   spec.authors       = ["Charles Hooper"]
   spec.email         = ["charles@heroku.com"]
-  spec.summary       = "DynamoDB adapter for Rollout"
-  spec.description   = "DynamoDB adapter for Rollout"
+  spec.summary       = "DynamoDB storage adapter for Rollout"
+  spec.description   = "DynamoDB storage adapter for Rollout"
   spec.homepage      = "https://github.com/chooper/rollout-dynamodb"
   spec.license       = "MIT"
 
