@@ -38,25 +38,25 @@ task :console do
   sh "irb -rubygems -r ./lib/#{name}.rb"
 end
 
-desc "Create tag v#{version} and build and push #{gem_file} to Rubygems"
-task :release => :build do
-  unless `git branch` =~ /^\* master$/
-    puts "You must be on the master branch to release!"
-    exit!
-  end
-  sh "git commit --allow-empty -a -m 'Release #{version}'"
-  sh "git tag v#{version}"
-  sh "git push origin master"
-  sh "git push origin v#{version}"
-  sh "gem push pkg/#{name}-#{version}.gem"
-end
+#desc "Create tag v#{version} and build and push #{gem_file} to Rubygems"
+#task :release => :build do
+#  unless `git branch` =~ /^\* master$/
+#    puts "You must be on the master branch to release!"
+#    exit!
+#  end
+#  sh "git commit --allow-empty -a -m 'Release #{version}'"
+#  sh "git tag v#{version}"
+#  sh "git push origin master"
+#  sh "git push origin v#{version}"
+#  sh "gem push pkg/#{name}-#{version}.gem"
+#end
 
-desc "Build #{gem_file} into the pkg directory"
-task :build => :gemspec do
-  sh "mkdir -p pkg"
-  sh "gem build #{gemspec_file}"
-  sh "mv #{gem_file} pkg"
-end
+#desc "Build #{gem_file} into the pkg directory"
+#task :build => :gemspec do
+#  sh "mkdir -p pkg"
+#  sh "gem build #{gemspec_file}"
+#  sh "mv #{gem_file} pkg"
+#end
 
 desc "Generate #{gemspec_file}"
 task :gemspec => :validate do
