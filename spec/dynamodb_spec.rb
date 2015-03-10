@@ -9,6 +9,20 @@ describe Rollout::DynamoDB do
     @dynamo_url = "https://dynamodb.us-east-99.amazonaws.com/"
   end
 
+  describe "#initialize" do
+    it "sets default options" do
+      defaults = {
+        :connection_options => {
+          :connect_timeout  => 3,
+          :read_timeout     => 3,
+          :write_timeout    => 3,
+          :retry_limit      => 4}}
+
+
+      assert_equal @storage.instance_variable_get(:@options), defaults
+    end
+  end
+
   describe "#get" do
     it "sends a valid post and returns valid data when key exists" do
       stub_request(:post, @dynamo_url).
