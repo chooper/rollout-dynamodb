@@ -25,12 +25,12 @@ module Rollout::DynamoDB
 
     def set(key, value)
       response = db.put_item(@table_name, {'id' => {'S' => key}, 'value' => {'S' => value}})
-      response.body
+      true
     end
 
     def del(key)
       response = db.delete_item(@table_name, {'HashKeyElement' => {'S' => key}})
-      response.body
+      true
     end
 
     private

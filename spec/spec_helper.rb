@@ -5,7 +5,6 @@ Bundler.require(:default, :development)
 
 require "webmock/rspec"
 
-#require "rollout"
 require "rollout/dynamodb/storage"
 
 RSpec.configure do |config|

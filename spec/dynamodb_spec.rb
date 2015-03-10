@@ -47,13 +47,13 @@ describe Rollout::DynamoDB do
       stub_request(:post, @dynamo_url).
         to_return(:body => "{\"ConsumedCapacityUnits\":0.5}")
 
-      value = @storage.get("my-nonexistent-key")
+      response = @storage.get("my-nonexistent-key")
       assert_requested(:post, @dynamo_url) do |req|
         body = MultiJson.decode(req.body)
         body == {"Key"=>{"HashKeyElement"=>{"S"=>"my-nonexistent-key"}}, "TableName"=>"table"} &&
           req.headers["X-Amz-Target"] == "DynamoDB_20111205.GetItem"
       end
-      assert_nil value
+      assert_nil response
     end
   end
 
@@ -68,6 +68,22 @@ describe Rollout::DynamoDB do
         body == {"Item"=>{"id"=>{"S"=>"my-key"}, "value"=>{"S"=>"my-value"}}, "TableName"=>"table"} &&
           req.headers["X-Amz-Target"] == "DynamoDB_20120810.PutItem"
       end
+      assert response
+    end
+  end
+
+  describe "#del" do
+    it "sends a valid post when called" do
+      stub_request(:post, @dynamo_url).
+        to_return(:body => "{\"ConsumedCapacityUnits\":1.0}")
+
+      response = @storage.del("my-key")
+      assert_requested(:post, @dynamo_url) do |req|
+        body = MultiJson.decode(req.body)
+        body == {"Key"=>{"HashKeyElement"=>{"S"=>"my-key"}}, "TableName"=>"table"} &&
+          req.headers["X-Amz-Target"] == "DynamoDB_20111205.DeleteItem"
+      end
+      assert response
     end
   end
   # ...
