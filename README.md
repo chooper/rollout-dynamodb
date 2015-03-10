@@ -40,6 +40,25 @@ $rollout.active?(:chat)
 # -> true
 ```
 
+### Testing
+
+You might want to test this code. You can get started like so:
+
+```bash
+foreman run rake
+```
+
+Note that there are integration tests bundled in with the specs. If you want to run them, follow the steps below, otherwise they will be skipped.
+
+1. Go to the AWS console for DynamoDB
+2. Create a new table, indexed by hash key named `id` of type `String`
+3. Set up the environment
+
+    ```bash
+    mv .env.test .env
+    $EDITOR .env  # set config vars
+    ```
+
 ## Contributing
 
 1. Fork it ( https://github.com/chooper/rollout-dynamodb/fork )
