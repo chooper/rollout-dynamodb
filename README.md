@@ -8,6 +8,8 @@ I wrote this adapter for those who either don't want to stand up a new
 redis instance or introduce a new single point of failure into their
 architecture.
 
+[![Build Status](https://travis-ci.org/chooper/rollout-dynamodb.svg?branch=master)](https://travis-ci.org/chooper/rollout-dynamodb)
+
 ## Installation
 
 Add this line to your application's Gemfile:
