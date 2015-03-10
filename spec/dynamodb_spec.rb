@@ -17,8 +17,21 @@ describe Rollout::DynamoDB do
       value = @storage.get("my-key")
       assert_requested(:post, @dynamo_url) do |req|
         body = MultiJson.decode(req.body)
-        body == {"Key"=>{"HashKeyElement"=>{"S"=>"my-key"}}, "TableName"=>"table"} &&
-          value == "my-value"
+        body == {"Key"=>{"HashKeyElement"=>{"S"=>"my-key"}}, "TableName"=>"table"}
+      end
+      assert_equal value, "my-value"
+    end
+  end
+
+  describe "#set" do
+    it "sends a valid post when called" do
+      stub_request(:post, @dynamo_url).
+        to_return(:body => "{\"Key\":{\"HashKeyElement\":{\"S\":\"my-key\"}},\"TableName\":\"table\"}")
+
+      response = @storage.set("my-key", "my-value")
+      assert_requested(:post, @dynamo_url) do |req|
+        body = MultiJson.decode(req.body)
+        body == {"Item"=>{"id"=>{"S"=>"my-key"}, "value"=>{"S"=>"my-value"}}, "TableName"=>"table"}
       end
     end
   end
