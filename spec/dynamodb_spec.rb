@@ -10,7 +10,7 @@ describe Rollout::DynamoDB do
   end
 
   describe "#get" do
-    it "returns valid data when key exists" do
+    it "sends a valid post and returns valid data when key exists" do
       stub_request(:post, @dynamo_url).
         to_return(:body => "{\"ConsumedCapacityUnits\":0.5,\"Item\":{\"value\":{\"S\":\"my-value\"},\"id\":{\"S\":\"my-key\"}}}")
 
