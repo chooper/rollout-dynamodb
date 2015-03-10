@@ -4,8 +4,6 @@ require "spec_helper"
 describe Rollout::DynamoDB do
   before do
     @storage = Rollout::DynamoDB::Storage.new("access-key", "secret-key", "table", "us-east-99")
-    @rollout = Rollout.new(@storage)
-
     @dynamo_url = "https://dynamodb.us-east-99.amazonaws.com/"
   end
 
