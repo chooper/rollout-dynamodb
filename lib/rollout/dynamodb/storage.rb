@@ -28,7 +28,7 @@ module Rollout::DynamoDB
 
     def get(key)
       response = db.get_item(@table_name, {'HashKeyElement' => {'S' => key}})
-      response.body['Item']['value']['S']
+      get_item_from_body(response.body)
     end
 
     def set(key, value)
@@ -39,6 +39,12 @@ module Rollout::DynamoDB
     def del(key)
       response = db.delete_item(@table_name, {'HashKeyElement' => {'S' => key}})
       response.body
+    end
+
+    private
+
+    def get_item_from_body(body)
+      body.fetch('Item', {}).fetch('value', {}).fetch('S', nil)
     end
   end
 end

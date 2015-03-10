@@ -21,6 +21,18 @@ describe Rollout::DynamoDB do
       end
       assert_equal value, "my-value"
     end
+
+    it "returns valid data when key does not exist" do
+      stub_request(:post, @dynamo_url).
+        to_return(:body => "{\"ConsumedCapacityUnits\":0.5}")
+
+      value = @storage.get("my-nonexistent-key")
+      assert_requested(:post, @dynamo_url) do |req|
+        body = MultiJson.decode(req.body)
+        body == {"Key"=>{"HashKeyElement"=>{"S"=>"my-nonexistent-key"}}, "TableName"=>"table"}
+      end
+      assert_nil value
+    end
   end
 
   describe "#set" do
