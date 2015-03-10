@@ -18,8 +18,14 @@ describe Rollout::DynamoDB do
           :write_timeout    => 3,
           :retry_limit      => 4}}
 
-
       assert_equal @storage.instance_variable_get(:@options), defaults
+    end
+
+    it "sets AWS/DynamoDB instance variables" do
+      assert_equal @storage.instance_variable_get(:@aws_access_key), "access-key"
+      assert_equal @storage.instance_variable_get(:@aws_secret_key), "secret-key"
+      assert_equal @storage.instance_variable_get(:@table_name),     "table"
+      assert_equal @storage.instance_variable_get(:@region),         "us-east-99"
     end
   end
 
