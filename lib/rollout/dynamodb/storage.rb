@@ -33,6 +33,11 @@ module Rollout::DynamoDB
       true
     end
 
+    def list
+      response = db.scan(@table_name)
+      response.body['Items'].map { |x| get_key_from_result(x) }
+    end
+
     private
 
     def db
@@ -43,8 +48,16 @@ module Rollout::DynamoDB
           :region => @region))
     end
 
+    def get_key_from_result(res)
+      res.fetch('id', {}).fetch('S', nil)
+    end
+
+    def get_item_from_result(res)
+      res.fetch('value', {}).fetch('S', nil)
+    end
+
     def get_item_from_body(body)
-      body.fetch('Item', {}).fetch('value', {}).fetch('S', nil)
+      get_item_from_result(body.fetch('Item', {}))
     end
   end
 end

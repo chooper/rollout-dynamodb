@@ -84,6 +84,22 @@ describe Rollout::DynamoDB do
       assert response
     end
   end
+
+  describe "#list" do
+    it "sends a valid post and returns valid data" do
+      stub_request(:post, @dynamo_url).
+        to_return(:body => "{\"ConsumedCapacityUnits\":0.5,\"Count\":4,\"Items\":[{\"id\":{\"S\":\"my-reused-key\"},\"value\":{\"S\":\"my-new-value\"}},{\"value\":{\"S\":\"0||\"},\"id\":{\"S\":\"feature:chat\"}},{\"id\":{\"S\":\"my-key\"},\"value\":{\"S\":\"my-value\"}},{\"value\":{\"S\":\"feature:__features__,chat\"},\"id\":{\"S\":\"feature:__features__\"}}],\"ScannedCount\":4}")
+
+      result_set = @storage.list
+      assert_requested(:post, @dynamo_url) do |req|
+        body = MultiJson.decode(req.body)
+
+        body == {"TableName"=>"table"} &&
+          req.headers["X-Amz-Target"] == "DynamoDB_20111205.Scan"
+      end
+      assert_equal result_set, ["my-reused-key", "feature:chat", "my-key", "feature:__features__"]
+    end
+  end
   # ...
 end
 

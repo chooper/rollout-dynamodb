@@ -9,6 +9,10 @@ def skip_dynamodb_tests?
   ].all?
 end
 
+def clear_table!(storage, table)
+  @storage.list.map { |item| @storage.del(item) }
+end
+
 describe Rollout::DynamoDB do
   before do
     WebMock.allow_net_connect!
@@ -19,6 +23,7 @@ describe Rollout::DynamoDB do
     aws_region     = ENV['TEST_DYNAMO_REGION']
 
     @storage = Rollout::DynamoDB::Storage.new(aws_access_key, aws_secret_key, aws_table_name, aws_region)
+    clear_table!(@storage, aws_table_name) unless skip_dynamodb_tests?
   end
 
   describe "DynamoDB integration" do
