@@ -3,9 +3,12 @@ require "bundler"
 
 Bundler.require(:default, :development)
 
-require "webmock/rspec"
 
 require "rollout/dynamodb/storage"
+require "rollout"
+require "webmock/rspec"
+require "rspec"
+require "bourne"
 
 def skip_dynamodb_tests?
   ![
@@ -21,5 +24,6 @@ def clear_table!(storage, table)
 end
 
 RSpec.configure do |config|
-  config.expect_with :test_unit
+  config.expect_with :rspec, :test_unit
+  config.mock_with :mocha
 end
