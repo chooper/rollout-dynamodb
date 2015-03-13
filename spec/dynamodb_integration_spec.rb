@@ -2,6 +2,7 @@ require "spec_helper"
 
 describe Rollout::DynamoDB do
   before do
+    skip if skip_dynamodb_tests?
     WebMock.allow_net_connect!
 
     aws_access_key = ENV['TEST_DYNAMO_ACCESS_KEY']
@@ -15,15 +16,11 @@ describe Rollout::DynamoDB do
 
   describe "DynamoDB integration" do
     it "get works correctly when key doesn't exist" do
-      pending("DynamoDB env vars not configured") if skip_dynamodb_tests?
-
       value = @storage.get("my-key")
       assert_nil value
     end
 
     it "set and get work correctly for new keys" do
-      pending("DynamoDB env vars not configured") if skip_dynamodb_tests?
-
       value = @storage.set("my-key", "my-value")
       assert value
 
@@ -32,8 +29,6 @@ describe Rollout::DynamoDB do
     end
 
     it "set and get work correctly for existing keys" do
-      pending("DynamoDB env vars not configured") if skip_dynamodb_tests?
-
       value = @storage.set("my-reused-key", "my-old-value")
       assert value
 
@@ -45,15 +40,11 @@ describe Rollout::DynamoDB do
     end
 
     it "delete works on key that doesn't exist" do
-      pending("DynamoDB env vars not configured") if skip_dynamodb_tests?
-
       value = @storage.del("my-nonexistent-key")
       assert value
     end
 
     it "delete works for existing keys" do
-      pending("DynamoDB env vars not configured") if skip_dynamodb_tests?
-
       value = @storage.set("my-deleted-key", "delete me")
       assert value
 

@@ -3,6 +3,7 @@ require 'rollout'
 
 describe "Rollout" do
   before do
+    skip if skip_dynamodb_tests?
     WebMock.allow_net_connect!
     aws_access_key = ENV['TEST_DYNAMO_ACCESS_KEY']
     aws_secret_key = ENV['TEST_DYNAMO_SECRET_KEY']
