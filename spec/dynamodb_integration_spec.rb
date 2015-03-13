@@ -1,18 +1,5 @@
 require "spec_helper"
 
-def skip_dynamodb_tests?
-  ![
-    ENV['TEST_DYNAMO_ACCESS_KEY'],
-    ENV['TEST_DYNAMO_SECRET_KEY'],
-    ENV['TEST_DYNAMO_TABLE_NAME'],
-    ENV['TEST_DYNAMO_REGION'],
-  ].all?
-end
-
-def clear_table!(storage, table)
-  @storage.list.map { |item| @storage.del(item) }
-end
-
 describe Rollout::DynamoDB do
   before do
     WebMock.allow_net_connect!
