@@ -10,8 +10,8 @@ require "webmock/rspec"
 require "rspec"
 require "bourne"
 
-def skip_dynamodb_tests?
-  ![
+def dynamodb_configured?
+  [
     ENV['TEST_DYNAMO_ACCESS_KEY'],
     ENV['TEST_DYNAMO_SECRET_KEY'],
     ENV['TEST_DYNAMO_TABLE_NAME'],

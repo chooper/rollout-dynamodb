@@ -3,7 +3,7 @@ require 'rollout'
 
 describe "Rollout" do
   before do
-    skip if skip_dynamodb_tests?
+    skip("DynamoDB env vars not set") unless dynamodb_configured?
     WebMock.allow_net_connect!
     aws_access_key = ENV['TEST_DYNAMO_ACCESS_KEY']
     aws_secret_key = ENV['TEST_DYNAMO_SECRET_KEY']
@@ -12,7 +12,7 @@ describe "Rollout" do
 
     @storage = Rollout::DynamoDB::Storage.new(aws_access_key, aws_secret_key, aws_table_name, aws_region)
     @rollout = Rollout.new(@storage)
-    clear_table!(@storage, aws_table_name) unless skip_dynamodb_tests?
+    clear_table!(@storage, aws_table_name) if dynamodb_configured?
   end
 
   describe "when a group is activated" do

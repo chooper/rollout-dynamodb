@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Rollout::DynamoDB do
   before do
-    skip if skip_dynamodb_tests?
+    skip("DynamoDB env vars not set") unless dynamodb_configured?
     WebMock.allow_net_connect!
 
     aws_access_key = ENV['TEST_DYNAMO_ACCESS_KEY']
@@ -11,7 +11,7 @@ describe Rollout::DynamoDB do
     aws_region     = ENV['TEST_DYNAMO_REGION']
 
     @storage = Rollout::DynamoDB::Storage.new(aws_access_key, aws_secret_key, aws_table_name, aws_region)
-    clear_table!(@storage, aws_table_name) unless skip_dynamodb_tests?
+    clear_table!(@storage, aws_table_name) if dynamodb_configured?
   end
 
   describe "DynamoDB integration" do
