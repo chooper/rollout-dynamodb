@@ -11,7 +11,7 @@ describe Rollout::DynamoDB do
     aws_region     = ENV['TEST_DYNAMO_REGION']
 
     @storage = Rollout::DynamoDB::Storage.new(aws_access_key, aws_secret_key, aws_table_name, aws_region)
-    clear_table!(@storage, aws_table_name) if dynamodb_configured?
+    clear_table!(@storage, aws_table_name) if dynamodb_configured? and !skip_slow_tests?
   end
 
   describe "DynamoDB integration" do

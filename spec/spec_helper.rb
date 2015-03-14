@@ -19,6 +19,10 @@ def dynamodb_configured?
   ].all?
 end
 
+def skip_slow_tests?
+  ENV['TEST_SKIP_SLOW'] && !["false", "0"].include?(ENV['TEST_SKIP_SLOW'].upcase)
+end
+
 def clear_table!(storage, table)
   storage.list.map { |item| storage.del(item) }
 end
