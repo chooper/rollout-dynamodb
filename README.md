@@ -2,7 +2,7 @@
 
 This is a storage adapter for
 [Rollout](https://github.com/FetLife/rollout) that uses DynamoDB.
-Rollout allows you to flip feature flags around in a sane way.
+Rollout allows you to flip feature flags around in a reasonable way.
 
 I wrote this adapter for those who either don't want to stand up a new
 redis instance or introduce a new single point of failure into their
